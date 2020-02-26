@@ -1,10 +1,5 @@
-# ok-admin-vue v3.0
-
-一个很赞的，扁平化风格的，响应式布局的后台管理模版，旨为后端程序员减压！
-
-### QQ群交流
-
-964222534
+# rkrbac based on vue
+### 一个很赞的后台权限管理系统UI
 
 ### 技术栈
 
@@ -15,9 +10,7 @@
 </p>
 
 ### 说明
-
-v3.0版本用Ant Design of Vue作为UI进行开发。
-
+用Ant Design of Vue作为UI进行开发。
 ### 组件版本
 
 | 组件 | 版本 |
@@ -61,12 +54,5 @@ v3.0版本用Ant Design of Vue作为UI进行开发。
 }
 ```
 
-### WebStorm设置
-
-- Tab size: 4
-- Indent: 4
-- Continuation indent: 4
-
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0909/140710_fb2e05e0_1152471.png "屏幕截图.png")
 
 ### Babel设置
