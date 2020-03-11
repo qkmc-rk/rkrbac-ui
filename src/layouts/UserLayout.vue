@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="header">
-            <div class="title">ok-admin</div>
-            <div class="desc">一个很赞的响应式的后台管理模版</div>
+            <div class="title">RK - RBAC</div>
+            <div class="desc">通用权限管理中心</div>
         </div>
         <router-view></router-view>
         <div class="footer">
@@ -12,7 +12,7 @@
                 <a href="#">条款</a>
             </div>
             <div class="copyright">
-                Copyright © 2019 ok-admin-vue v3.0
+                Copyright © 2020 rk-rbac v1.0
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
 <style scoped>
     .container {
         background: #f0f2f5 url("../assets/bg.svg") no-repeat 50%;
-        background-size: 100%;
+        background-size: 100% 100%;
         position: absolute;
         width: 100%;
         min-height: 100%;

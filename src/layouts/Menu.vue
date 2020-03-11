@@ -1,36 +1,36 @@
 <template>
     <a-menu theme="dark" mode="inline" :openKeys="openKeys" :defaultSelectedKeys="defaultSelectedKeys" @openChange="onOpenChange">
-        <a-sub-menu key="dashboard">
+        <!-- <a-sub-menu key="dashboard">
             <span slot="title">
                 <a-icon type="dashboard"/>
-                <span>控制台</span>
+                <span>控制中心</span>
             </span>
             <a-menu-item key="/dashboard/analysis">
-                <router-link to="/dashboard/analysis">分析页</router-link>
+                <router-link to="/dashboard/analysis">用户角色权限分析</router-link>
             </a-menu-item>
             <a-menu-item key="/dashboard/monitor">
-                <router-link to="/dashboard/monitor">监控页</router-link>
+                <router-link to="/dashboard/monitor">监控</router-link>
             </a-menu-item>
             <a-menu-item key="/dashboard/workplace">
                 <router-link to="/dashboard/workplace">工作台</router-link>
             </a-menu-item>
-        </a-sub-menu>
+        </a-sub-menu> -->
         <a-sub-menu key="member">
             <span slot="title">
                 <a-icon type="user"/>
-                <span>会员管理</span>
+                <span>用户管理</span>
             </span>
             <a-menu-item key="/member/user">
-                <router-link to="/member/user">用户列表</router-link>
+                <router-link to="/member/user">用户管理</router-link>
             </a-menu-item>
             <a-menu-item key="/member/role">
-                <router-link to="/member/role">角色列表</router-link>
+                <router-link to="/member/role">角色管理</router-link>
             </a-menu-item>
             <a-menu-item key="/member/permission">
-                <router-link to="/member/permission">权限列表</router-link>
+                <router-link to="/member/permission">权限管理</router-link>
             </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu key="often">
+        <!-- <a-sub-menu key="often">
             <span slot="title">
                 <a-icon type="compass"/>
                 <span>常用页面</span>
@@ -44,7 +44,7 @@
             <a-menu-item key="/often/app">
                 <router-link to="/often/app">应用列表</router-link>
             </a-menu-item>
-        </a-sub-menu>
+        </a-sub-menu> -->
     </a-menu>
 </template>
 

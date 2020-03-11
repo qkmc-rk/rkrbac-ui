@@ -1,5 +1,5 @@
 <template>
-    <div>ok-rbac ©2019 Created by BoBi</div>
+    <div>rkrbac ©2020 powered by Mrruan</div>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
     <a-layout id="components-layout-demo-side" style="min-height: 100vh">
         <!--侧边栏-->
         <a-layout-sider v-model="collapsed" :trigger="null">
-            <div class="logo"/>
+            <div class="logo"><img class="logo-png" src="../assets/logo.png" alt=""></div>
             <Menu/>
         </a-layout-sider>
         <a-layout>
@@ -53,5 +53,9 @@
         padding: 0 20px;
         line-height: 64px;
         font-size: 20px;
+    }
+    .logo-png {
+        width: 100%;
+        height: 100%;
     }
 </style>

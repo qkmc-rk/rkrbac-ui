@@ -3,7 +3,7 @@
         <a-dropdown>
             <span>
                 <img src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"/>
-                bobi <a-icon type="down"/>
+                mrruan <a-icon type="down"/>
             </span>
             <a-menu slot="overlay">
                 <a-menu-item>

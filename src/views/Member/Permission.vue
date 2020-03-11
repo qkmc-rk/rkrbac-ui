@@ -2,8 +2,8 @@
     <div class="box">
         <!--面包屑导航-->
         <a-breadcrumb class="breadcrumb">
-            <a-breadcrumb-item>会员管理</a-breadcrumb-item>
-            <a-breadcrumb-item>权限列表</a-breadcrumb-item>
+            <a-breadcrumb-item>用户管理</a-breadcrumb-item>
+            <a-breadcrumb-item>权限管理</a-breadcrumb-item>
         </a-breadcrumb>
         <!--内容主体-->
         <div class="content">
@@ -19,6 +19,11 @@
                         搜索
                     </a-button>
                 </a-form-item>
+                <div layout="inline-block" class="button-group">
+                    <a-button type="primary" html-type="submit" @click="addPermission">
+                        <a-icon type="plus" />
+                    </a-button>
+                </div>
             </a-form>
             <!--数据表格-->
             <a-table bordered
@@ -41,13 +46,72 @@
                 </span>
                 <!--操作-->
                 <span slot="action" slot-scope="record">
-                    <a href="javascript:;" @click="updateRole(record)">编辑</a>
+                    <a href="javascript:;" @click="updatePermission(record)">编辑</a>
                     <a-divider type="vertical"/>
-                    <a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record.id)" okText="是" cancelText="否">
+                    <a-popconfirm title="确定要删除吗？" @confirm="deletePermission(record.id)" okText="是" cancelText="否">
                         <a href="#">删除</a>
                       </a-popconfirm>
                 </span>
             </a-table>
+            <!--增加权限-->
+            <a-modal title="添加权限"
+                     :visible="addModalVisible"
+                     okText="确认"
+                     cancelText="取消"
+                     :keyboard="false"
+                     :maskClosable="false"
+                     @ok="addHandleOk"
+                     @cancel="addHandleCancel">
+                <a-form :form="permissionform">
+                    <a-form-item label="父级" v-bind="modalFormItemLayout">
+                        <a-input placeholder="" autocomplete="off" v-decorator="['parentId']" disabled/>
+                    </a-form-item>
+                    <a-form-item label="权限" v-bind="modalFormItemLayout">
+                        <a-input placeholder="请输入权限名称" autocomplete="off" v-decorator="['name']"/>
+                    </a-form-item>
+                    <a-form-item label="url" v-bind="modalFormItemLayout">
+                        <a-input placeholder="user:insertUser" autocomplete="off" v-decorator="['url']"/>
+                    </a-form-item>
+                    <a-form-item label="类型" v-bind="modalFormItemLayout">
+                        <a-select v-decorator="['type']" >
+                            <a-select-option value="0">目录</a-select-option>
+                            <a-select-option value="1">菜单</a-select-option>
+                            <a-select-option value="2">按钮</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
+            <!--修改权限-->
+            <a-modal title="修改权限"
+                     :visible="editModalVisible"
+                     okText="确认"
+                     cancelText="取消"
+                     :keyboard="false"
+                     :maskClosable="false"
+                     @ok="editHandleOk"
+                     @cancel="editHandleCancel">
+                <a-form :form="permissionform">
+                    <a-form-item label="父级" v-bind="modalFormItemLayout">
+                        <a-input placeholder="" autocomplete="off" v-decorator="['parentId']" disabled/>
+                    </a-form-item>
+                    <a-form-item label="ID" v-bind="modalFormItemLayout">
+                        <a-input placeholder="" autocomplete="off" v-decorator="['id']" disabled/>
+                    </a-form-item>
+                    <a-form-item label="权限" v-bind="modalFormItemLayout">
+                        <a-input placeholder="请输入权限名称" autocomplete="off" v-decorator="['name']"/>
+                    </a-form-item>
+                    <a-form-item label="url" v-bind="modalFormItemLayout">
+                        <a-input placeholder="user:insertUser" autocomplete="off" v-decorator="['url']"/>
+                    </a-form-item>
+                    <a-form-item label="类型" v-bind="modalFormItemLayout">
+                        <a-select v-decorator="['type']" >
+                            <a-select-option value="0">目录</a-select-option>
+                            <a-select-option value="1">菜单</a-select-option>
+                            <a-select-option value="2">按钮</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
         </div>
         <a-back-top/>
     </div>
@@ -70,11 +134,18 @@
         name: 'Permission',
         beforeCreate() {
             this.searchform = this.$form.createForm(this);
+            this.permissionform = this.$form.createForm(this);
         },
         data() {
             return {
                 loading: true,
+                addModalVisible: false, 
+                editModalVisible: false,
                 columns,
+                modalFormItemLayout: {
+                    labelCol: {span: 2},
+                    wrapperCol: {span: 22}
+                },
                 data: [],
                 selectedRowKeys: []
             };
@@ -101,28 +172,77 @@
                 let date = new Date(time);
                 return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
             },
+            addPermission() {
+                this.addModalVisible = true;
+                this.$nextTick(() => {
+                    // 设置默认值
+                    this.permissionform.setFieldsValue({parentId: '0', type: '2'});
+                });
+            },
+            updatePermission(record) {
+                this.editModalVisible = true;
+                this.$nextTick(() => {
+                    // 设置默认值
+                    this.permissionform.setFieldsValue({id: record.id, parentId: record.parentId, type: record.type + '', name: record.name, url: record.url});
+                });
+            },
             searchPermission(e) {
                 e.preventDefault();
                 this.listPermission();
             },
-            updateRole(record) {
-                console.log(record);
-            },
-            deleteRole(id) {
+            deletePermission(ids) {
                 this.loading = true;
                 this.$axios({
-                    url: '/role/deleteRole',
+                    url: '/permission/deletePermission',
                     method: 'delete',
-                    params: {id: id}
+                    params: {ids: ids}
                 }).then(() => {
                     this.loading = false;
+                    this.listPermission();
                 }).catch(() => {
                     this.loading = false;
+                    this.listPermission();
                 });
             },
             onSelectChange(selectedRowKeys) {
                 console.log('selectedRowKeys changed: ', selectedRowKeys);
                 this.selectedRowKeys = selectedRowKeys;
+            },
+            addHandleOk() {
+                const params = this.permissionform.getFieldsValue();
+                this.$axios({
+                    url: '/permission/insertPermission',
+                    method: 'post',
+                    params: params
+                }).then(() => {
+                    this.loading = false;
+                    this.listPermission();
+                    this.addModalVisible = false;
+                }).catch(() => {
+                    this.loading = false;
+                    this.addModalVisible = false;
+                });
+            },
+            addHandleCancel() {
+                this.addModalVisible = false;
+            },
+            editHandleOk() {
+                const params = this.permissionform.getFieldsValue();
+                this.$axios({
+                    url: '/permission/insertPermission',
+                    method: 'post',
+                    params: params
+                }).then(() => {
+                    this.loading = false;
+                    this.listPermission();
+                    this.editModalVisible = false;
+                }).catch(() => {
+                    this.loading = false;
+                    this.editModalVisible = false;
+                });
+            },
+            editHandleCancel() {
+                this.editModalVisible = false;
             }
         }
     };
@@ -146,5 +266,12 @@
         a {
             text-decoration: none;
         }
+    }
+    .button-group{
+        border-top:1px solid #ccc;
+        padding-top:6px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:6px;
+        margin: 9px 0 9px 0;
     }
 </style>
